@@ -12,6 +12,13 @@ export default function AppTabs() {
       backgroundColor={colors.background}
       indicatorColor={colors.backgroundElement}
       labelStyle={{ selected: { color: colors.text } }}>
+      <NativeTabs.Trigger name="index">
+        <NativeTabs.Trigger.Label>Suas Viagens</NativeTabs.Trigger.Label>
+        <NativeTabs.Trigger.Icon
+          src={require('@/assets/images/tabIcons/mark_13680143.png')}
+          renderingMode="template"
+        />
+      </NativeTabs.Trigger>
       
       <NativeTabs.Trigger name="oferecer">
         <NativeTabs.Trigger.Label>Oferecer</NativeTabs.Trigger.Label>
@@ -21,13 +28,7 @@ export default function AppTabs() {
         />
       </NativeTabs.Trigger>
 
-      <NativeTabs.Trigger name="index">
-        <NativeTabs.Trigger.Label>Suas Viagens</NativeTabs.Trigger.Label>
-        <NativeTabs.Trigger.Icon
-          src={require('@/assets/images/tabIcons/mark_13680143.png')}
-          renderingMode="template"
-        />
-      </NativeTabs.Trigger>
+      
     </NativeTabs>
   );
 }
