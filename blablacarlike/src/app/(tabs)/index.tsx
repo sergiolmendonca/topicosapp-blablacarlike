@@ -1,3 +1,4 @@
+import InfoGeral from "@/components/info-geral";
 import { ThemedText } from "@/components/themed-text";
 import { ThemedView } from "@/components/themed-view";
 import ViagemCard from "@/components/viagem-card";
@@ -12,6 +13,7 @@ export default function MinhasViagens() {
 
   return (
     <ThemedView style={styles.container}>
+        <InfoGeral viagens={VIAGENS}></InfoGeral>
         <FlatList
           data={VIAGENS}
           keyExtractor={(item: Viagem) => item.id}

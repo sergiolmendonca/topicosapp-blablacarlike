@@ -33,7 +33,6 @@ export const CardTheme = {
   seta: { marginHorizontal: 4 },
   footerRow: {
     flexDirection: "row",
-    justifyContent: "space-between",
     alignItems: "center",
     marginVertical: 6,
   },
