@@ -39,10 +39,9 @@ export default function TabTwoScreen() {
       contentContainerStyle={[styles.contentContainer, contentPlatformStyle]}>
       <ThemedView style={styles.container}>
         <ThemedView style={styles.titleContainer}>
-          <ThemedText type="subtitle">Minhas Viagens</ThemedText>
+          <ThemedText type="subtitle">Oferecer Viagem</ThemedText>
         </ThemedView>
 
-        
         {Platform.OS === 'web' && <WebBadge />}
       </ThemedView>
     </ScrollView>
