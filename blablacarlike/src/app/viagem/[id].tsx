@@ -1,98 +1,72 @@
-import * as Device from 'expo-device';
-import { Platform, StyleSheet } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { ThemedText } from "@/components/themed-text";
+import { ThemedView } from "@/components/themed-view";
+import { Spacing } from "@/constants/theme";
+import { useThemeCard } from "@/hooks/use-theme";
+import { VIAGENS } from "@/models/viagem";
+import { useLocalSearchParams } from "expo-router";
+import { View, Image, StyleSheet } from "react-native";
 
-import { AnimatedIcon } from '@/components/animated-icon';
-import { HintRow } from '@/components/hint-row';
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { WebBadge } from '@/components/web-badge';
-import { BottomTabInset, MaxContentWidth, Spacing } from '@/constants/theme';
+export default function ResumoDaViagem() {
+  const { id } = useLocalSearchParams<{ id: string }>();
+  const theme = useThemeCard();
+  const viagem = VIAGENS.find((v) => v.id === id);
 
-function getDevMenuHint() {
-  if (Platform.OS === 'web') {
-    return <ThemedText type="small">use browser devtools</ThemedText>;
-  }
-  if (Device.isDevice) {
+  if (!viagem) {
     return (
-      <ThemedText type="small">
-        shake device or press <ThemedText type="code">m</ThemedText> in terminal
-      </ThemedText>
+      <ThemedView style={styles.container}>
+        <ThemedText>Viagem não encontrada.</ThemedText>
+      </ThemedView>
     );
   }
-  const shortcut = Platform.OS === 'android' ? 'cmd+m (or ctrl+m)' : 'cmd+d';
-  return (
-    <ThemedText type="small">
-      press <ThemedText type="code">{shortcut}</ThemedText>
-    </ThemedText>
-  );
-}
 
-export default function HomeScreen() {
   return (
     <ThemedView style={styles.container}>
-      <SafeAreaView style={styles.safeArea}>
-        <ThemedView style={styles.heroSection}>
-          <AnimatedIcon />
-          <ThemedText type="title" style={styles.title}>
-            Welcome to&nbsp;Expo
-          </ThemedText>
-        </ThemedView>
-
-        <ThemedText type="code" style={styles.code}>
-          get started
+      <View style={styles.safeArea}>
+        <ThemedText type="subtitle" style={styles.dataHora}>
+          {viagem.data.split('-').reverse().join('/')}
         </ThemedText>
 
-        <ThemedView type="backgroundElement" style={styles.stepContainer}>
-          <HintRow
-            title="Try editing"
-            hint={<ThemedText type="code">src/app/index.tsx</ThemedText>}
-          />
-          <HintRow title="Dev tools" hint={getDevMenuHint()} />
-          <HintRow
-            title="Fresh start"
-            hint={<ThemedText type="code">npm run reset-project</ThemedText>}
-          />
-        </ThemedView>
+        <View>
+          <ThemedText type="smallBold">{viagem.horarioSaida}: {viagem.origem} </ThemedText>
+          <ThemedText type="smallBold" style={styles.seta}>↓</ThemedText>
+          <ThemedText type="smallBold">{viagem.horarioChegada}: {viagem.destino} </ThemedText>
+        </View>
 
-        {Platform.OS === 'web' && <WebBadge />}
-      </SafeAreaView>
+        <View style={styles.routeRow}>
+          <View>
+            <ThemedText type="smallBold">preço total</ThemedText>
+            <ThemedText type="default">{viagem.passageiros.length} passageiros</ThemedText>
+          </View>
+          <ThemedText type="subtitle">R$ {viagem.passageiros.length * viagem.preco}</ThemedText>
+        </View>
+
+        <View style={styles.infoRow}>
+          <ThemedText type="small">Vagas disponíveis</ThemedText>
+          <ThemedText type="smallBold">{viagem.vagasDisponiveis}</ThemedText>
+        </View>
+
+        {viagem.passageiros.map((passageiro) => (
+            <View key={passageiro.id} style={theme.passageiroInfo}>
+                <Image source={{ uri: passageiro.avatar }} style={styles.avatar} />
+                <View>
+                <ThemedText type="smallBold">{passageiro.nome}</ThemedText>
+                <ThemedText type="small">★ {passageiro.avaliacao.toFixed(1)}</ThemedText>
+                </View>
+            </View>
+        ))}
+      </View>
     </ThemedView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    flexDirection: 'row',
-  },
-  safeArea: {
-    flex: 1,
-    paddingHorizontal: Spacing.four,
-    alignItems: 'center',
-    gap: Spacing.three,
-    paddingBottom: BottomTabInset + Spacing.three,
-    maxWidth: MaxContentWidth,
-  },
-  heroSection: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    flex: 1,
-    paddingHorizontal: Spacing.four,
-    gap: Spacing.four,
-  },
-  title: {
-    textAlign: 'center',
-  },
-  code: {
-    textTransform: 'uppercase',
-  },
-  stepContainer: {
-    gap: Spacing.three,
-    alignSelf: 'stretch',
-    paddingHorizontal: Spacing.three,
-    paddingVertical: Spacing.four,
-    borderRadius: Spacing.four,
-  },
+  container: { flex: 1 },
+  safeArea: { flex: 1, padding: Spacing.four, gap: Spacing.three },
+  routeRow: { flexDirection: 'row', justifyContent: "space-between", padding: 10, borderBottomWidth: 1, borderTopWidth: 1 },
+  seta: { marginHorizontal: Spacing.two },
+  dataHora: { marginBottom: Spacing.two },
+  motoristaRow: { flexDirection: 'row', alignItems: 'center', gap: Spacing.two },
+  avatar: { width: 44, height: 44, borderRadius: 22 },
+  infoRow: { flexDirection: 'row', justifyContent: 'space-between' },
+  observacoes: { marginTop: Spacing.two, fontStyle: 'italic' },
 });

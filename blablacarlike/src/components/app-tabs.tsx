@@ -5,25 +5,26 @@ import { Colors } from '@/constants/theme';
 
 export default function AppTabs() {
   const scheme = useColorScheme();
-  const colors = Colors[scheme === 'unspecified' ? 'light' : scheme];
+  const colors = Colors;
 
   return (
     <NativeTabs
       backgroundColor={colors.background}
       indicatorColor={colors.backgroundElement}
       labelStyle={{ selected: { color: colors.text } }}>
-      <NativeTabs.Trigger name="index">
-        <NativeTabs.Trigger.Label>Minhas Viagens</NativeTabs.Trigger.Label>
+      
+      <NativeTabs.Trigger name="oferecer">
+        <NativeTabs.Trigger.Label>Oferecer</NativeTabs.Trigger.Label>
         <NativeTabs.Trigger.Icon
-          src={require('@/assets/images/tabIcons/home.png')}
+          src={require('@/assets/images/tabIcons/add_14019778.png')}
           renderingMode="template"
         />
       </NativeTabs.Trigger>
 
-      <NativeTabs.Trigger name="oferecer">
-        <NativeTabs.Trigger.Label>Oferecer Viagem</NativeTabs.Trigger.Label>
+      <NativeTabs.Trigger name="index">
+        <NativeTabs.Trigger.Label>Suas Viagens</NativeTabs.Trigger.Label>
         <NativeTabs.Trigger.Icon
-          src={require('@/assets/images/tabIcons/explore.png')}
+          src={require('@/assets/images/tabIcons/mark_13680143.png')}
           renderingMode="template"
         />
       </NativeTabs.Trigger>
