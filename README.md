@@ -39,3 +39,4 @@ npx expo start
 
 ## 4. Screenshots
 
+![Suas Viagens](/docs/WhatsApp%20Image%202026-09-13%20at%2020.37.10%20(2).jpeg))
